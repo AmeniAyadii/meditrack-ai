@@ -6,10 +6,13 @@
 
 FROM python:3.11-slim AS builder
 
-# Installer les dépendances système nécessaires
+# Installer les dépendances système nécessaires (incluant gfortran pour scipy)
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
+    gfortran \
+    libopenblas-dev \
+    liblapack-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Définir le dossier de travail
@@ -52,12 +55,12 @@ RUN mkdir -p /app/logs /app/data /app/models && \
 # Changer l'utilisateur
 USER meditrack
 
-# Exposer le port
-EXPOSE 8000
+# Exposer le port (Render utilise le port 10000 par défaut)
+EXPOSE 10000
 
 # Vérification de santé
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/api/health || exit 1
+    CMD curl -f http://localhost:10000/api/health || exit 1
 
-# Commande de démarrage
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Commande de démarrage avec Gunicorn (recommandé pour Render)
+CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:10000"]
