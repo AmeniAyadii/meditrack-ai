@@ -1,0 +1,7 @@
+{
+  "measures": [
+    {"date": "2024-01-01T08:00:00", "systolic": 120, "diastolic": 80},
+    {"date": "2024-01-02T08:00:00", "systolic": 122, "diastolic": 82},
+    {"date": "2024-01-03T08:00:00", "systolic": 125, "diastolic": 85}
+  ]
+}

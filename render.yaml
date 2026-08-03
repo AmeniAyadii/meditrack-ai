@@ -1,0 +1,21 @@
+# meditrack-ai/render.yaml
+
+services:
+  - type: web
+    name: meditrack-ai-python
+    runtime: python
+    repo: https://github.com/votre-username/meditrack-ai
+    plan: free
+    envVars:
+      - key: API_HOST
+        value: 0.0.0.0
+      - key: API_PORT
+        value: 10000
+      - key: API_DEBUG
+        value: False
+      - key: LOG_LEVEL
+        value: INFO
+      - key: API_KEY
+        generateValue: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
