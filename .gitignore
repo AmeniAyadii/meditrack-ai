@@ -49,3 +49,21 @@ data/
 .DS_Store 
 .vscode/ 
 .idea/ 
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Python virtual environments
+.venv/
+venv/
+ENV/
+
+# Credentials
+*.pem
+*.key
+*.json.key
+
+
